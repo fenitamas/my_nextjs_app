@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id       Int       @id @default(autoincrement())
+  username String
+  email    String    @unique
+  password String
+  posts    posts[]
+  comments comments[]
+}
+
+model posts {
+  id         Int        @id @default(autoincrement())
+  user_id    Int?
+  title      String
+  content    String?
+
+  users      users?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  comments   comments[]
+
+  category   Category?  @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+
+  tags       Tag[]      // implicit many-to-many
+}
+
+model comments {
+  id       Int     @id @default(autoincrement())
+  content  String
+  user_id  Int
+  post_id  Int
+
+  users    users   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  posts    posts   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  posts posts[]
+}
+
+model Tag {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  posts posts[]  // implicit many-to-many
+}
