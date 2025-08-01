@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+     "postinstall": "prisma generate"
+    
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",
@@ -28,4 +30,6 @@
     "tailwindcss": "^4",
     "typescript": "5.5"
   }
+  
+  
 }
