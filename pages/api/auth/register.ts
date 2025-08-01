@@ -3,7 +3,6 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 import { z } from 'zod'
 
-// 🔐 Zod schema with validation rules
 const registerSchema = z.object({
   username: z
     .string()
